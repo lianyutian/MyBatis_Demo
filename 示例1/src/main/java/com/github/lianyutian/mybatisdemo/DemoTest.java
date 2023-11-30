@@ -18,18 +18,18 @@ public class DemoTest {
         String password = "123456";
 
         User userParam = new User();
-        userParam.setSchoolName("Sunny School");
+        userParam.setId(1);
 
         // 第一步：加载驱动程序
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
         // 第二步：获得数据库的连接
         Connection conn = DriverManager.getConnection(url, userName, password);
 
         // 第三步：创建语句并执行
         Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM `user` WHERE schoolName = \'"
-                + userParam.getSchoolName() + "\';");
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM `user` WHERE id = \'"
+                + userParam.getId() + "\';");
 
         // 第四步：处理数据库操作结果
         List<User> userList = new ArrayList<>();

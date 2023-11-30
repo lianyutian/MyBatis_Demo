@@ -1,10 +1,5 @@
 DROP TABLE IF EXISTS `user`;
-private Integer id;
-    private String name;
-    private String email;
-    private Integer age;
-    private Integer sex;
-    private String schoolName;
+
 CREATE TABLE `user`  (
                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
                                `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
