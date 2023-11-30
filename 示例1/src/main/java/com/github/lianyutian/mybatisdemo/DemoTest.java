@@ -3,16 +3,13 @@ package com.github.lianyutian.mybatisdemo;
 import com.github.lianyutian.mybatisdemo.model.User;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DemoTest {
     @Test
-    public void testJDBC() throws Exception {
+    public void testQuery() throws Exception {
         String url = "jdbc:mysql://127.0.0.1:3306/mybatis?serverTimezone=UTC";
         String userName = "root";
         String password = "123456";
@@ -51,4 +48,47 @@ public class DemoTest {
             System.out.println("name : " + user.getName() + " ;  email : " + user.getEmail());
         }
     }
+
+    @Test
+    public void testInsert() {
+        String url = "jdbc:mysql://127.0.0.1:3306/mybatis?serverTimezone=UTC";
+        String userName = "root";
+        String password = "123456";
+
+        // SQL 插入语句
+        String insertSql = "INSERT INTO mybatis.user (name, email, age, sex, schoolName) VALUES (?, ?, ?, ?, ?)";
+
+        // 设置是否自动提交事务为 false
+        try (Connection connection = DriverManager.getConnection(url, userName, password)) {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+                // 设置参数
+                preparedStatement.setString(1, "李四");
+                preparedStatement.setString(2, "321@qq.com");
+                preparedStatement.setInt(3, 18);
+                preparedStatement.setInt(4, 1);
+                preparedStatement.setString(5, "北京大学");
+
+                // 执行插入操作
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Data inserted successfully!");
+                } else {
+                    System.out.println("Insert failed.");
+                }
+
+                // 提交事务
+                connection.commit();
+            } catch (SQLException e) {
+                // 回滚事务
+                connection.rollback();
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
