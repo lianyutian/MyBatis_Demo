@@ -18,10 +18,12 @@ import java.util.List;
 public class MyBatisDemoTest {
     @Test
     public void test() throws IOException {
+        // 第一阶段：MyBatis初始化阶段
         // 读取 MyBatis 配置文件
         InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
+        // 第二阶段：数据处理阶段
         // 打开一个 SqlSession
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             // 获取 Mapper
